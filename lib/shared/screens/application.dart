@@ -1,5 +1,7 @@
+import 'package:city_guide/items/business_logic/favorites_provider.dart';
 import 'package:city_guide/items/business_logic/items_provider.dart';
 import 'package:city_guide/items/presentation/items_list_page.dart';
+import 'package:city_guide/shared/screens/homepage.dart';
 import 'package:city_guide/shared/service_locator.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -9,8 +11,15 @@ class Application extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider<ItemsProvider>(
-      create: (context) => getIt.get<ItemsProvider>()..loadItems(),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider<ItemsProvider>(
+          create: (context) => getIt.get<ItemsProvider>()..loadItems(),
+        ),
+        ChangeNotifierProvider<FavoritesProvider>(
+          create: (context) => FavoritesProvider(),
+        )
+      ],
       child: MaterialApp(
         title: 'Flutter Demo',
         theme: ThemeData(
@@ -25,7 +34,7 @@ class Application extends StatelessWidget {
           // is not restarted.
           primarySwatch: Colors.blue,
         ),
-        home: const ItemsListPage(),
+        home: const HomePage(),
       ),
     );
   }
