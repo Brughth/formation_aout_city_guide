@@ -15,7 +15,6 @@ class SearchProvider extends ChangeNotifier {
     notifyListeners();
     searchResults = await itemRepository.find(seachTerm: searchTerm);
     isSearching = false;
-
     notifyListeners();
   }
 }

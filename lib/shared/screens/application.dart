@@ -1,8 +1,10 @@
+import 'package:city_guide/auth/logic/auth_provide.dart';
+import 'package:city_guide/auth/presentation/login_page.dart';
 import 'package:city_guide/items/business_logic/favorites_provider.dart';
 import 'package:city_guide/items/business_logic/items_provider.dart';
-import 'package:city_guide/items/presentation/items_list_page.dart';
 import 'package:city_guide/shared/screens/homepage.dart';
 import 'package:city_guide/shared/service_locator.dart';
+import 'package:city_guide/shared/utils/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -13,28 +15,22 @@ class Application extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
+        ChangeNotifierProvider<AuthProvider>(
+          create: (context) => getIt.get<AuthProvider>(),
+        ),
         ChangeNotifierProvider<ItemsProvider>(
           create: (context) => getIt.get<ItemsProvider>()..loadItems(),
         ),
         ChangeNotifierProvider<FavoritesProvider>(
           create: (context) => FavoritesProvider(),
-        )
+        ),
       ],
       child: MaterialApp(
         title: 'Flutter Demo',
         theme: ThemeData(
-          // This is the theme of your application.
-          //
-          // Try running your application with "flutter run". You'll see the
-          // application has a blue toolbar. Then, without quitting the app, try
-          // changing the primarySwatch below to Colors.green and then invoke
-          // "hot reload" (press "r" in the console where you ran "flutter run",
-          // or simply save your changes to "hot reload" in a Flutter IDE).
-          // Notice that the counter didn't reset back to zero; the application
-          // is not restarted.
-          primarySwatch: Colors.blue,
+          primarySwatch: AppColors.createMaterialColor(AppColors.primary),
         ),
-        home: const HomePage(),
+        home: LoginPage(),
       ),
     );
   }
