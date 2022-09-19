@@ -14,6 +14,7 @@ class AuthRepository {
 
     data['email'] = email;
     data['password'] = password;
+
     //? get token
     Response response = await http.post(
       '/auth/login',
@@ -49,5 +50,20 @@ class AuthRepository {
 
       return UserModel.fromJson(response.data);
     }
+  }
+
+  register({
+    required String name,
+    required String email,
+    required String password,
+  }) async {
+    Response response = await http.post("/api/users", queryParameters: {
+      'email': email,
+      'name': name,
+      'password': password,
+    });
+    print(response);
+
+    return UserModel.fromJson(response.data);
   }
 }
