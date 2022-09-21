@@ -12,6 +12,8 @@ class AuthProvider extends ChangeNotifier {
   UserModel? _user;
   UserModel? get user => _user;
 
+  //? ==================== login ==================== //
+
   bool _isLogingIn = false;
   bool get isLogingIn => _isLogingIn;
 
@@ -40,6 +42,8 @@ class AuthProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  //? ====================== register ============= //
+
   bool _isLoading = false;
   bool get isLoading => _isLoading;
 
@@ -62,5 +66,35 @@ class AuthProvider extends ChangeNotifier {
     );
 
     setLoading(false);
+  }
+
+  //? =============== check auth state =========== //
+
+  bool _isCheckingAuthState = false;
+  bool get isCheckingAuthState => _isCheckingAuthState;
+  setIsCheckingAuthState(bool value) {
+    _isCheckingAuthState = value;
+    notifyListeners();
+  }
+
+  bool _isAuthtenticated = false;
+  bool get isAuthtenticated => _isAuthtenticated;
+
+  checkAuthState() async {
+    _isCheckingAuthState = true;
+    _isAuthtenticated = false;
+    notifyListeners();
+
+    _user = await authRepository.getUser();
+
+    if (_user != null) {
+      _isCheckingAuthState = false;
+      _isAuthtenticated = true;
+      notifyListeners();
+    } else {
+      _isCheckingAuthState = false;
+      _isAuthtenticated = false;
+      notifyListeners();
+    }
   }
 }

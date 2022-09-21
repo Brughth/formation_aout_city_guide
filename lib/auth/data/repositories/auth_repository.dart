@@ -50,6 +50,7 @@ class AuthRepository {
 
       return UserModel.fromJson(response.data);
     }
+    return null;
   }
 
   register({
